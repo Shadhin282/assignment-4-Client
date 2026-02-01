@@ -1,5 +1,8 @@
+import { env } from "@/env";
 import { cookies } from "next/headers";
-import { toast } from "sonner";
+
+
+const AUTH_URL = env.AUTH_URL;
 
 export const userService = {
 
@@ -9,7 +12,7 @@ export const userService = {
 
       const cookieStore = await cookies();
 
-      const res = await fetch("http://localhost:5000/api/auth/get-session", {
+      const res = await fetch(`${AUTH_URL}/get-session`, {
         headers: {
           Cookie: cookieStore.toString(),
         },
@@ -27,7 +30,7 @@ export const userService = {
     } catch (err) {
 
       console.log(err);
-      
+
       return {
         data: null,
         error: { message: "Something went wrong during get cookie" },
