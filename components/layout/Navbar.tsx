@@ -7,33 +7,22 @@ import {
   LayoutDashboard,
   Menu,
   Users,
+  
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-// import { authClient } from "@/lib/auth-client";
-// import { redirect } from "next/navigation";
 import { userService } from "@/services/user.service";
 import NavbarClient from "./NavbarClient";
 
-export default async function Navbar() {
-  // const [isOpen, setIsOpen] = useState(false);
 
-  // const { data } = authClient.useSession();
-  // const { user } = data || {};
+
+export default async function Navbar() {
+ 
     const { data } = await userService.getSession();
 
     const user = data?.user;
-    console.log(user)
-  // const handleSignOut = async () => {
-  //   await authClient.signOut({
-  //     fetchOptions: {
-  //       onSuccess: () => {
-  //         redirect("/login"); // redirect to login page
-  //       },
-  //     },
-  //   });
-  // };
+    // console.log(user)
+ 
   const navItems = [
     { label: "Browse Tutors", href: "/tutors" },
     ...(user?.role === "STUDENT" ? [
@@ -47,6 +36,8 @@ export default async function Navbar() {
     ...(user?.role === "ADMIN" ? [
       { label: "Overview", href: "/admin", icon: "chart" },
       { label: "Users", href: "/admin/users", icon: "users" },
+      { label: "Bookings", href: "/admin/bookings", icon: "users" },
+      { label: "Categories", href: "/admin/categories", icon: "users" },
     ] : []),
   ];
 
@@ -188,28 +179,7 @@ export default async function Navbar() {
                   ))}
                 </nav>
                 <div className="border-t flex flex-col pt-4 mt-4">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Avatar className="w-10 h-10">
-                      <AvatarImage src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" />
-                      <AvatarFallback>AJ</AvatarFallback>
-                    </Avatar>
-                    <span className="text-sm font-medium text-gray-900">
-                      Alex Johnson
-                    </span>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start text-gray-600 hover:text-gray-900"
-                  >
-                    Logout
-                  </Button>
-
-                  <Link href="/login">
-                    <Button variant="ghost">Login</Button>
-                  </Link>
-                  <Link href="/register">
-                    <Button>Get Started</Button>
-                  </Link>
+                  <NavbarClient user={user}></NavbarClient>
                 </div>
               </div>
             </SheetContent>

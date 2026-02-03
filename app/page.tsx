@@ -2,14 +2,19 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Search, CheckCircle, ArrowRight } from 'lucide-react';
 import { Input } from "@/components/ui/input";
-import { userService } from "@/services/user.service";
+import { tutorService } from "@/services/tutor.service";
+import { TutorProfile } from "@/types";
+import { TutorCard } from "@/components/module/tutor/TutorCard";
+// import { userService } from "@/services/user.service";
 
 
 export default async function Home() {
    
-   const {data} = await userService.getSession();
+  //  const {data} = await userService.getSession();
    
-   console.log(data)
+  //  console.log(data)
+  const {data} = await tutorService.getTutorsPost();
+  console.log(data)
   
   return (
    <div className="flex flex-col min-h-screen">
@@ -104,9 +109,9 @@ export default async function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* {MOCK_TUTORS.slice(0, 4).map((tutor) => (
+            {data.slice(0, 4).map((tutor: TutorProfile) => (
               <TutorCard key={tutor.id} tutor={tutor} />
-            ))} */}
+            ))}
           </div>
 
           <div className="mt-8 text-center sm:hidden">
